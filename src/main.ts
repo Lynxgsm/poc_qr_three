@@ -62,11 +62,8 @@ loader.load("../assets/models/cube.stl", function (geometry) {
 
 // Generate final STL File
 document.querySelector("button")?.addEventListener("click", () => {
-  if (loadedMesh) {
-    const exportedMesh = [...cubes, loadedMesh].reduce((a, c) =>
-      CSG.union(a, c)
-    );
-    generateSTLFile(exportedMesh, "mesh.stl");
+  if (scene) {
+    generateSTLFile(scene, "mesh.stl");
   }
 });
 
