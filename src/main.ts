@@ -9,10 +9,10 @@ import {
   MeshPhongMaterial,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import QRCode3D from "./qrcode";
 import { generateSTLFile } from "./export";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
+import { CSG } from "three-csg-ts";
 
 const scene = new Scene();
 const camera = new PerspectiveCamera(
@@ -38,8 +38,6 @@ camera.position.x = 10;
 camera.position.y = 10;
 camera.position.z = 10;
 
-new OrbitControls(camera, renderer.domElement);
-
 // Put the generated 3D QRCode
 const qrcode3D = new QRCode3D(scene);
 const cubes = qrcode3D.generate();
@@ -62,27 +60,22 @@ loader.load("../assets/models/cube.stl", function (geometry) {
   scene.add(mesh);
 });
 
+// Generate final STL File
+document.querySelector("button")?.addEventListener("click", () => {
+  if (loadedMesh) {
+    const exportedMesh = [...cubes, loadedMesh].reduce((a, c) =>
+      CSG.union(a, c)
+    );
+    generateSTLFile(exportedMesh, "mesh.stl");
+  }
+});
+
+// Add orbit control to control camera
+new OrbitControls(camera, renderer.domElement);
+
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
-
-// Generate final STL File
-document.querySelector("button")?.addEventListener("click", () => {
-  // CORRESPOND ATTRIBUTES TO BE ABLE TO MERGE
-  if (loadedMesh) {
-    const meshes = [
-      ...cubes.map((cube) => {
-        let geometry = cube.geometry;
-        return geometry;
-      }),
-      loadedMesh.geometry,
-    ];
-
-    const exportedFile = BufferGeometryUtils.mergeGeometries(meshes);
-    const exportedMesh = new Mesh(exportedFile);
-    generateSTLFile(exportedMesh, "mesh.stl");
-  }
-});
 
 animate();
