@@ -12,7 +12,6 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import QRCode3D from "./qrcode";
 import { generateSTLFile } from "./export";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
-import { CSG } from "three-csg-ts";
 
 const scene = new Scene();
 const camera = new PerspectiveCamera(
@@ -22,7 +21,6 @@ const camera = new PerspectiveCamera(
   1000
 );
 const renderer = new WebGLRenderer();
-let loadedMesh: Mesh | null = null;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -40,7 +38,7 @@ camera.position.z = 10;
 
 // Put the generated 3D QRCode
 const qrcode3D = new QRCode3D(scene);
-const cubes = qrcode3D.generate();
+qrcode3D.generate();
 
 // Load STL File
 const loader = new STLLoader();
@@ -51,7 +49,6 @@ loader.load("../assets/models/cube.stl", function (geometry) {
     shininess: 200,
   });
   const mesh = new Mesh(geometry, material);
-  loadedMesh = mesh;
 
   mesh.position.set(0, 0, 0);
   mesh.rotation.set(0, -Math.PI / 2, 0);

@@ -17,11 +17,8 @@
     "vite": "^4.4.0"
   },
   "dependencies": {
-    "camera-controls": "^2.7.0",
     "qrcode": "^1.5.3",
     "qrcode-generator": "^1.4.4",
-    "three": "^0.154.0",
-    "three-csg-ts": "^3.1.13",
-    "three-stl-loader": "^1.0.6"
+    "three": "^0.154.0"
   }
 }

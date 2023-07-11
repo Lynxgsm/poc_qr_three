@@ -1,5 +1,6 @@
 import { Scene, BoxGeometry, MeshBasicMaterial, Mesh, Group } from "three";
 import QRCode from "qrcode-generator";
+import { initialScaleFactor } from "./constants";
 
 class QRCode3D {
   scene: Scene;
@@ -31,13 +32,9 @@ class QRCode3D {
       }
     }
 
-    const scaleSize = 0.05; // Scale size (to change later)
-
-    cubes.scale.set(scaleSize, scaleSize, scaleSize);
-    cubes.position.set(-1.5, -1.5, 2.2);
+    cubes.scale.set(initialScaleFactor, initialScaleFactor, initialScaleFactor);
+    cubes.position.set(-1.5, -1.5, 2.2); // To control with GUI later
     this.scene.add(cubes);
-
-    return exportCubes;
   }
 }
 
