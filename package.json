@@ -19,6 +19,7 @@
   "dependencies": {
     "qrcode": "^1.5.3",
     "qrcode-generator": "^1.4.4",
-    "three": "^0.154.0"
+    "three": "^0.154.0",
+    "three-csg-ts": "^3.1.13"
   }
 }

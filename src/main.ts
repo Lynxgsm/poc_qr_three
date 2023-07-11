@@ -12,6 +12,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import QRCode3D from "./qrcode";
 import { generateSTLFile } from "./export";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
+import { CSG } from "three-csg-ts";
 
 const scene = new Scene();
 const camera = new PerspectiveCamera(
@@ -38,7 +39,8 @@ camera.position.z = 10;
 
 // Put the generated 3D QRCode
 const qrcode3D = new QRCode3D(scene);
-qrcode3D.generate();
+const joinedCube = qrcode3D.generate();
+let loadedMesh: Mesh | null = null;
 
 // Load STL File
 const loader = new STLLoader();
@@ -49,6 +51,7 @@ loader.load("../assets/models/cube.stl", function (geometry) {
     shininess: 200,
   });
   const mesh = new Mesh(geometry, material);
+  loadedMesh = mesh;
 
   mesh.position.set(0, 0, 0);
   mesh.rotation.set(0, -Math.PI / 2, 0);
@@ -59,7 +62,12 @@ loader.load("../assets/models/cube.stl", function (geometry) {
 
 // Generate final STL File
 document.querySelector("button")?.addEventListener("click", () => {
-  if (scene) {
+  if (scene && loadedMesh) {
+    const newObject = CSG.union(loadedMesh, joinedCube);
+
+    scene.remove(joinedCube!);
+    scene.remove(loadedMesh);
+    scene.add(newObject);
     generateSTLFile(scene, "mesh.stl");
   }
 });
