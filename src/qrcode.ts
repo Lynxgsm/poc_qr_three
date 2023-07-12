@@ -1,13 +1,7 @@
-import {
-  Scene,
-  BoxGeometry,
-  MeshBasicMaterial,
-  Mesh,
-  Group,
-} from "three";
+import { Scene, BoxGeometry, MeshBasicMaterial, Mesh, Group } from "three";
 import QRCode from "qrcode-generator";
 import { initialScaleFactor } from "./constants";
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js"
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 class QRCode3D {
   scene: Scene;
@@ -58,8 +52,8 @@ class QRCode3D {
       initialScaleFactor
     );
 
-    mergedMesh.position.set(-1.5, -1.5, 2.03); // To control with GUI later
-    this.scene.add(mergedMesh);
+    // mergedMesh.position.set(-1.5, -1.5, 2.03); // To control with GUI later
+    // this.scene.add(mergedMesh);
 
     return mergedMesh;
   }

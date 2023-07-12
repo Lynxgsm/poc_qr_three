@@ -59,3 +59,22 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+/* SLIDER */
+.slider-container {
+  background-color: #eee;
+  position: absolute;
+  top: 1vh;
+  left: 1vw;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 1rem;
+}
